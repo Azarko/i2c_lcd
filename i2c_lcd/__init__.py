@@ -3,7 +3,7 @@ Contains base methods for i2c devices (i2c.py) and methods for the i2c LCD (lcd.
 """
 
 __author__ = 'Boris Polyanskiy'
-__version__ = '1.3'
+__version__ = '1.4'
 
 from .lcd import I2CLcd
 from .entry import display_ip

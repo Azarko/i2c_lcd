@@ -11,22 +11,10 @@ import sys
 import time
 import typing
 
-from i2c_lcd.i2c import I2CDevice
+from i2c_lcd import i2c
 
 
-def deprecated(info):
-    # type: (typing.Text) -> typing.Callable
-    """Decorator to mark method deprecated and print `info` instructions."""
-
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            sys.stderr.write('WARNING: call to deprecated method "{}". {}'.format(func.__name__, info))
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
-class I2CLcd(I2CDevice):
+class I2CLcd(i2c.I2CDevice):
     """Class to control 1-line/2-line lcd via i2c interface."""
 
     def __init__(self, line2=True, dots5x11=False, warm_start=False):
@@ -36,7 +24,7 @@ class I2CLcd(I2CDevice):
         :param dots5x11: True for 5x11 dots format display mode, False for 5x8
         :param warm_start: True for skip lcd initialization, False - not
         """
-        I2CDevice.__init__(self, 0x27)
+        i2c.I2CDevice.__init__(self, 0x27)
         self.__backlight = True
         self.__line = None
 
@@ -63,12 +51,6 @@ class I2CLcd(I2CDevice):
         # type: () -> int
         """Backlight in command format (0b100 or 0b000)."""
         return self.__backlight << 3
-
-    @deprecated('Use "clear" instead.')
-    def clear_display(self):
-        # type: () -> None
-        """Alias for `clear` for backward compatibility."""
-        self.clear()
 
     def clear(self):
         # type: () -> None

@@ -11,7 +11,7 @@ import socket
 import time
 import typing
 
-from i2c_lcd.lcd import I2CLcd
+from i2c_lcd import lcd as lcd_module
 
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.ERROR)
@@ -50,7 +50,7 @@ def get_ip():
 def display_ip():
     # type: () -> None
     """Detect IP address and show it on the LCD."""
-    lcd = I2CLcd(warm_start=True)
+    lcd = lcd_module.I2CLcd(warm_start=True)
 
     while True:
         ip = get_ip()
@@ -77,7 +77,7 @@ def display_ip():
 def init_lcd():
     # type: () -> None
     """Initialize the LCD."""
-    I2CLcd(warm_start=False)
+    lcd_module.I2CLcd(warm_start=False)
 
 
 @log_not_connected
@@ -87,7 +87,7 @@ def switch_backlight():
     parser = argparse.ArgumentParser()
     parser.add_argument('state', choices=['on', 'off'])
     args = parser.parse_args()
-    lcd = I2CLcd(warm_start=True)
+    lcd = lcd_module.I2CLcd(warm_start=True)
     lcd.set_backlight(args.state == 'on')
 
 
@@ -99,7 +99,7 @@ def write():
     parser.add_argument('string')
     parser.add_argument('--line', type=int, choices=[1, 2], default=1)
     args = parser.parse_args()
-    lcd = I2CLcd(warm_start=True)
+    lcd = lcd_module.I2CLcd(warm_start=True)
     lcd.set_cursor(line=args.line)
     lcd.write(args.string)
 
@@ -108,5 +108,5 @@ def write():
 def clear():
     # type: () -> None
     """Clear the display of the LCD."""
-    lcd = I2CLcd()
+    lcd = lcd_module.I2CLcd()
     lcd.clear()
