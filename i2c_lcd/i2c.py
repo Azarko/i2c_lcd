@@ -2,7 +2,7 @@
 
 __author__ = 'Boris Polyanskiy'
 
-from time import sleep
+import time
 try:
     import smbus
 except ImportError:
@@ -26,19 +26,19 @@ class I2CDevice:
         # type: (int) -> None
         """Write a single command."""
         self.bus.write_byte(self.addr, cmd)
-        sleep(0.0001)
+        time.sleep(0.0001)
 
     def write_byte_data(self, cmd, data):
         # type: (int, int) -> None
         """Write a command and argument."""
         self.bus.write_byte_data(self.addr, cmd, data)
-        sleep(0.0001)
+        time.sleep(0.0001)
 
     def write_block_data(self, cmd, data):
         # type: (int, int) -> None
         """Write a block of data."""
         self.bus.write_block_data(self.addr, cmd, data)
-        sleep(0.0001)
+        time.sleep(0.0001)
 
     def read_byte(self):
         # type: () -> int
